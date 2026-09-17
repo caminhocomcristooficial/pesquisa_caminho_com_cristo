@@ -13,7 +13,7 @@ import urllib.request
 app = Flask(__name__)
 
 ARQUIVO = Path("respostas_pesquisa.csv")
-
+URL_GOOGLE = "https://script.google.com/macros/s/AKfycbw6fpVlVmcuqcLcQgogSQBLXhmPTnaBytcwVpsZtG14NSJzvQyHMQZy_MnObulL5fmxWQ/exec"
 # =========================================================
 # PERGUNTAS
 # =========================================================
