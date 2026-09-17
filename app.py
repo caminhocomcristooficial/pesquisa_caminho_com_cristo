@@ -8,7 +8,8 @@ from flask import Flask, request, render_template_string, redirect, url_for
 import csv
 from datetime import datetime
 from pathlib import Path
-
+import json
+import urllib.request
 app = Flask(__name__)
 
 ARQUIVO = Path("respostas_pesquisa.csv")
