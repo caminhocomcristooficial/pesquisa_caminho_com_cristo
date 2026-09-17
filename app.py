@@ -874,14 +874,12 @@ def pesquisa():
             progresso=0
         )
 
-
     etapa = int(
         request.form.get(
             "etapa",
             1
         )
     )
-
 
     # PRIMEIRA TELA
     if etapa == 1:
@@ -893,13 +891,12 @@ def pesquisa():
             progresso=20
         )
 
-
     # PERGUNTAS 1 A 4
     if 2 <= etapa <= 5:
 
         respostas = {}
 
-        # Recupera as respostas que foram enviadas
+        # Recupera respostas anteriores
         for i in range(1, etapa):
 
             respostas[f"q{i}"] = request.form.get(
@@ -907,41 +904,40 @@ def pesquisa():
                 ""
             )
 
-        # Guarda a resposta anterior
+        # Guarda resposta atual
         resposta = request.form.get(
             "resposta",
             ""
         )
 
-        respostas[f"q{etapa-1}"] = resposta
+        respostas[f"q{etapa - 1}"] = resposta
 
-
-        # Envia os dados através dos campos ocultos
+        # Cria os campos ocultos com as respostas
         campos = ""
 
         for chave, valor in respostas.items():
 
-            campos += f'''
+            campos += f"""
             <input
                 type="hidden"
                 name="{chave}"
                 value="{valor}">
-            '''
+            """
 
-
+        # Insere os campos ocultos diretamente
+        # antes do fechamento de cada formulário
         pagina = HTML.replace(
-            '<input type="hidden" name="etapa" value="{{ etapa + 1 }}">',
-            '<input type="hidden" name="etapa" value="{{ etapa + 1 }}">' + campos
+            "</form>",
+            campos + "</form>"
         )
-
 
         return render_template_string(
             pagina,
             etapa=etapa,
-            pergunta=PERGUNTAS[etapa-1] if etapa <= 4 else None,
+            pergunta=PERGUNTAS[etapa - 1]
+                if etapa <= 4 else None,
             progresso=etapa * 20
         )
-
 
     # FINAL — SALVAR
     if etapa == 6:
@@ -960,9 +956,7 @@ def pesquisa():
             ""
         )
 
-
         salvar_respostas(respostas)
-
 
         return render_template_string(
             HTML,
