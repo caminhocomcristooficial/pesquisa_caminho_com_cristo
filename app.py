@@ -833,7 +833,30 @@ def salvar_respostas(respostas):
             respostas.get("q4", ""),
             respostas.get("q5", "")
         ])
+    dados_google = {
+        "primeira_impressao": respostas.get("q1", ""),
+        "mensagem_marcante": respostas.get("q2", ""),
+        "tema": respostas.get("q3", ""),
+        "indicaria": respostas.get("q4", ""),
+        "mensagem_autor": respostas.get("q5", "")
+    }
 
+    requisicao = urllib.request.Request(
+        URL_GOOGLE,
+        data=json.dumps(dados_google).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json"
+        },
+        method="POST"
+    )
+
+    try:
+        urllib.request.urlopen(
+            requisicao,
+            timeout=10
+        )
+    except Exception as erro:
+        print("Erro ao enviar para Google Sheets:", erro)
 
 # =========================================================
 # PÁGINA
